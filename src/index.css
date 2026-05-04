@@ -1,0 +1,17 @@
+body {
+  background-color: black;
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+body, html, #root {
+  background-color: #000000; /* black */
+  margin: 0;
+  padding: 0;
+  font-family: 'Orbitron', sans-serif; /* optional if using Orbitron font */
+  color: #ffffff; /* default text color */
+}
