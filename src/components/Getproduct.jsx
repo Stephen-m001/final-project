@@ -14,6 +14,7 @@ const Getproduct = () => {
   const [error, setError] = useState("")
   const [visibleCount, setVisibleCount] = useState(8)
   const [searchTerm, setSearchTerm] = useState("")
+  const [showSearch, setShowSearch] = useState(false) // 🔥 NEW
 
   const imagepath = "http://murayambuni.alwaysdata.net/static/images/"
 
@@ -36,19 +37,19 @@ const Getproduct = () => {
     getproducts()
   }, [])
 
-  // reset visible count when category changes
   useEffect(() => {
     setVisibleCount(8)
   }, [selectedCategory])
 
   // filter products
   const filteredProducts =
-  (selectedCategory === "all"
-    ? products
-    : products.filter(p => p.category === selectedCategory)
-  ).filter(p =>
-    p.product_name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+    (selectedCategory === "all"
+      ? products
+      : products.filter(p => p.category === selectedCategory)
+    ).filter(p =>
+      p.product_name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+
   const visibleProducts = filteredProducts.slice(0, visibleCount)
 
   return (
@@ -61,32 +62,62 @@ const Getproduct = () => {
       <h2 className="text-warning">{loading}</h2>
       <h2 className="text-danger">{error}</h2>
 
-      {/* category buttons */}
-      <div className="mb-3">
-        <button onClick={() => setSelectedCategory("all")} className="btn btn-secondary me-2">
-          All
-        </button>
+      {/* category + search row */}
+      <div className="mb-3 d-flex align-items-center justify-content-between flex-wrap">
 
-        <button onClick={() => setSelectedCategory("games")} className="btn btn-secondary me-2">
-          Games
-        </button>
+        {/* categories */}
+        <div>
+          <button onClick={() => setSelectedCategory("all")} className="btn btn-secondary me-2">
+            All
+          </button>
 
-        <button onClick={() => setSelectedCategory("consoles")} className="btn btn-secondary me-2">
-          Consoles
-        </button>
+          <button onClick={() => setSelectedCategory("games")} className="btn btn-secondary me-2">
+            Games
+          </button>
 
-        <button onClick={() => setSelectedCategory("pc")} className="btn btn-secondary">
-          PC
-        </button>
-        <div className="mb-3">
+          <button onClick={() => setSelectedCategory("consoles")} className="btn btn-secondary me-2">
+            Consoles
+          </button>
+
+          <button onClick={() => setSelectedCategory("pc")} className="btn btn-secondary">
+            PC
+          </button>
+        </div>
+
+        {/* 🔍 Toggle Search */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          
+          {/* icon */}
+          <button
+            onClick={() => setShowSearch(!showSearch)}
+            style={{
+              border: "none",
+              background: "none",
+              fontSize: "20px",
+              color: "#39FF14"
+            }}
+          >
+            🔍
+          </button>
+
+          {/* animated input */}
           <input
             type="text"
-            className="form-control"
             placeholder="Search products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              width: showSearch ? "200px" : "0px",
+              opacity: showSearch ? 1 : 0,
+              transition: "0.3s",
+              padding: showSearch ? "5px" : "0px",
+              border: showSearch ? "1px solid #ccc" : "none",
+              borderRadius: "5px",
+              overflow: "hidden"
+            }}
           />
         </div>
+
       </div>
 
       {/* products */}
